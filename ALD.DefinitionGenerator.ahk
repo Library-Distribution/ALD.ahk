@@ -40,7 +40,8 @@ class DefinitionGenerator
 
 	Write()
 	{
-		this._doc.loadXML(ALD.DefinitionGenerator.Template)
+		this._doc.setProperty("SelectionNamespaces", "xmlns:ald='" . ALD.NamespaceURI . "'")
+		, this._doc.loadXML(ALD.DefinitionGenerator.Template)
 
 		this._doc.documentElement.setAttributeNode(this._createNamespaceAttribute("ald:unique-id", this.GUID))
 		, this._doc.documentElement.setAttributeNode(this._createNamespaceAttribute("ald:type", this.Type))
