@@ -7,3 +7,4 @@ class ALD
 	;#include ALD.Uploader.ahk
 	;#include ALD.Downloader.ahk
 }
+#include Zip.ahk
