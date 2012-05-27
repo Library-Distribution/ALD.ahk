@@ -4,7 +4,7 @@ class ALD
 
 	#include ALD.DefinitionGenerator.ahk
 	#include ALD.PackageGenerator.ahk
-	;#include ALD.Uploader.ahk
-	;#include ALD.Downloader.ahk
+	#include ALD.Connection.ahk
 }
 #include Zip.ahk
+#include HttpRequest.ahk
