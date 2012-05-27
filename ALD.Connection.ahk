@@ -34,7 +34,10 @@
 		doc := this._GETRequest(RequestURL, NamespaceURI)
 		, user := {}
 
-		; ...
+		user["name"] := doc.documentElement.getAttribute("ald:name")
+		, user["mail"] := doc.documentElement.getAttribute("ald:mail")
+		, user["joined"] := doc.documentElement.getAttribute("ald:joined")
+		, user["privileges"] := doc.documentElement.getAttribute("ald:privileges")
 
 		return user
 	}

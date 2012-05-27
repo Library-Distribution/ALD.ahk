@@ -15,3 +15,7 @@ for each, user in user_list
 	users .= "  - " . user . "`n"
 }
 MsgBox Registered users:`n`n%users%
+
+for field, value in conn.getUser("maul.esel")
+	list .= "  -  " field " = " value . "`n"
+MsgBox maul.esel`n`n%list%
