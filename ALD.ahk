@@ -8,3 +8,4 @@ class ALD
 }
 #include Zip.ahk
 #include HttpRequest.ahk
+#include Base64.ahk
