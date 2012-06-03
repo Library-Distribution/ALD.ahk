@@ -20,11 +20,11 @@ class PackageGenerator
 	{
 		fileList := []
 
-		for each, node in this._doc.selectSingleNode("/*/ald:files/ald:src")
+		for each, node in this._doc.selectNodes("/*/ald:files/ald:src/ald:file")
 		{
 			fileList.Insert(node.getAttribute("ald:path"))
 		}
-		for each, node in this._doc.selectSingleNode("/*/ald:files/ald:doc")
+		for each, node in this._doc.selectNodes("/*/ald:files/ald:doc/ald:file")
 		{
 			fileList.Insert(node.getAttribute("ald:path"))
 		}
