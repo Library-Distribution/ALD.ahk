@@ -20,14 +20,18 @@ class PackageGenerator
 	{
 		fileList := []
 
-		for each, node in this._doc.selectNodes("/*/ald:files/ald:src/ald:file")
+		nodeList := this._doc.selectNodes("/*/ald:files/ald:src/ald:file")
+		Loop % nodeList.Length
 		{
-			fileList.Insert(node.getAttribute("ald:path"))
+			fileList.Insert(nodeList.Item(A_Index - 1).getAttribute("ald:path"))
 		}
-		for each, node in this._doc.selectNodes("/*/ald:files/ald:doc/ald:file")
+
+		nodeList := this._doc.selectNodes("/*/ald:files/ald:doc/ald:file")
+		Loop % nodeList.Length
 		{
-			fileList.Insert(node.getAttribute("ald:path"))
+			fileList.Insert(nodeList.Item(A_Index - 1).getAttribute("ald:path"))
 		}
+
 		if (logo := this._doc.documentElement.getAttribute("ald:logo-image"))
 		{
 			fileList.Insert(logo)
