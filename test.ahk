@@ -19,3 +19,17 @@ MsgBox Registered users:`n`n%users%
 for field, value in conn.getUser("maul.esel")
 	list .= "  -  " field " = " value . "`n"
 MsgBox maul.esel`n`n%list%
+
+FileSelectFile package
+if ErrorLevel
+   ExitApp
+
+InputBox user, Enter user name..., Enter your ALD user name below:
+if ErrorLevel
+	ExitApp
+
+InputBox pw, Enter password..., Enter your ALD user password below:, HIDE
+if ErrorLevel
+	ExitApp
+
+MsgBox % conn.uploadItem(package, user, pw)
