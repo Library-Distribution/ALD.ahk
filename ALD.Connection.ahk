@@ -92,7 +92,6 @@
 
 		if (!result := this._Request("GET", URL, headers, response, NamespaceURI, user, password))
 		{
-			MsgBox %headers%
 			if (!result  := this._Request("GET", URL, headers, response, NamespaceURI))
 				throw Exception("No response received")
 		}
