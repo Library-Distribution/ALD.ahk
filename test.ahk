@@ -1,7 +1,8 @@
 ﻿; <AutoHotkey L>
-#include ALD.ahk
 
+#include ALD.ahk
 conn := new ALD.Connection("http://maulesel.ahk4.net/api")
+
 item_list := conn.getItemList()
 for each, item in item_list
 {
@@ -16,9 +17,27 @@ for each, user in user_list
 }
 MsgBox Registered users:`n`n%users%
 
+list := ""
 for field, value in conn.getUser("maul.esel")
+{
 	list .= "  -  " field " = " value . "`n"
+}
 MsgBox maul.esel`n`n%list%
+
+list := ""
+for field, value in conn.getItemById("FDBA89C73EC0476AFDE6F792FF4EC588")
+{
+	list .= "  -  " field " = " value . "`n"
+}
+MsgBox Item:`n`n%list%
+
+list := ""
+for field, value in conn.getItem("TheTestPack", "4.0.2.1 b")
+{
+	list .= "  -  " field " = " value . "`n"
+}
+MsgBox Item:`n`n%list%
+
 
 FileSelectFile package
 if ErrorLevel
