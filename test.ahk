@@ -1,7 +1,7 @@
 ﻿; <AutoHotkey L>
 
 #include ALD.ahk
-conn := new ALD.Connection("http://maulesel.ahk4.net/api")
+conn := new ALD.Connection("https://ahk4.net/user/maulesel/api")
 
 item_list := conn.getItemList()
 for each, item in item_list
