@@ -11,7 +11,7 @@
 
 	getUserList(start = 0, count = "all")
 	{
-		local RequestURL := this.URL . "/users/list.php?start=" . start . "&count=" . count
+		local RequestURL := this.URL . "/users/list?start=" . start . "&count=" . count
 			, NamespaceURI := "ald://api/users/list/schema/2012"
 
 		doc := this._GETRequest(RequestURL, NamespaceURI)
@@ -28,7 +28,7 @@
 
 	getUser(name, request_user = "", request_password = "")
 	{
-		local RequestURL := this.URL . "/users/describe.php?name=" . name
+		local RequestURL := this.URL . "/users/describe/" . name
 			, NamespaceURI := "ald://api/users/describe/schema/2012"
 
 		doc := this._GETRequest(RequestURL, NamespaceURI, request_user, request_password)
@@ -44,7 +44,7 @@
 
 	getItemById(id)
 	{
-		local RequestURL := this.URL "/items/describe.php?id=" . id
+		local RequestURL := this.URL "/items/describe/" . id
 			, NamespaceURI := "ald://api/items/describe/schema/2012"
 
 		return this._parseItemXML(this._GETRequest(RequestURL, NamespaceURI))
@@ -52,7 +52,7 @@
 
 	getItem(name, version)
 	{
-		local RequestURL := this.URL "/items/describe.php?name=" . name . "&version=" . version
+		local RequestURL := this.URL "/items/describe/" . name . "/" . version
 			, NamespaceURI := "ald://api/items/describe/schema/2012"
 
 		return this._parseItemXML(this._GETRequest(RequestURL, NamespaceURI))
@@ -69,7 +69,7 @@
 
 	getItemList(start = 0, count = "all", type = "", user = "", name = "")
 	{
-		local RequestURL := this.URL . "/items/list.php?start=" . start . "&count=" . count . (type ? "&type=" . type : "") . (user ? "&user=" . user : "") . (name ? "&name=" . name : "")
+		local RequestURL := this.URL . "/items/list?start=" . start . "&count=" . count . (type ? "&type=" . type : "") . (user ? "&user=" . user : "") . (name ? "&name=" . name : "")
 			, NamespaceURI := "ald://api/items/list/schema/2012"
 
 		doc := this._GETRequest(RequestURL, NamespaceURI)
@@ -145,7 +145,7 @@
 			, CRLF := "`r`n"
 			, bytesPerChar := A_IsUnicode ? 2 : 1
 		local headers := "Accept: text/xml`nContent-Type: multipart/form-data; boundary=""" Boundary """`n"
-			, RequestURL := this.URL . "/items/add.php"
+			, RequestURL := this.URL . "/items/add"
 			, NamespaceURI := "ald://api/items/add/schema/2012"
 
 		FileRead pack, *c %package%
