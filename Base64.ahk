@@ -1,28 +1,32 @@
-Base64_Encode(ByRef Data)
+Base64_Encode(String)
 {
 	static CharSet := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-	Length := StrLen(Data) << !!A_IsUnicode ;make sure the length is the number of bytes, not the number of characters
-	VarSetCapacity(Output,Ceil(Length / 3) << 2), Index := 0, pBin := &Data ;set the size of the Base64 output, initialize variables
-	Loop, % Length // 3 ;process 3 bytes per iteration
+	VarSetCapacity(Output,Ceil(Length / 3) << 2)
+	Index := 1, Length := StrLen(String)
+	Loop, % Length // 3
 	{
-		;convert the 3 bytes to 4 Base64 characters
-		Value := (*(pBin ++) << 16) | (*(pBin ++) << 8) | *(pBin ++)
-		Output .= SubStr(CharSet,((Value >> 18) & 63) + 1,1)
+		Value := Asc(SubStr(String,Index,1)) << 16
+			| Asc(SubStr(String,Index + 1,1)) << 8
+			| Asc(SubStr(String,Index + 2,1))
+		Index += 3
+		Output .= SubStr(CharSet,(Value >> 18) + 1,1)
 			. SubStr(CharSet,((Value >> 12) & 63) + 1,1)
 			. SubStr(CharSet,((Value >> 6) & 63) + 1,1)
 			. SubStr(CharSet,(Value & 63) + 1,1)
 	}
-	Length := Mod(Length,3) ;determine the number of characters left over
-	If Length = 0 ;no characters remaining, conversion complete
+	Length := Mod(Length,3)
+	If Length = 0 ;no characters remaining
 		Return, Output
-	Value := (*pBin) << 10
+	Value := Asc(SubStr(String,Index,1)) << 10
 	If Length = 1
+	{
 		Return, Output ;one character remaining
-			. SubStr(CharSet,((Value >> 12) & 63) + 1,1)
+			. SubStr(CharSet,(Value >> 12) + 1,1)
 			. SubStr(CharSet,((Value >> 6) & 63) + 1,1) . "=="
-	Value |= *(++ pBin) << 2 ;insert the third character
+	}
+	Value |= Asc(SubStr(String,Index + 1,1)) << 2 ;insert the third character
 	Return, Output ;two characters remaining
-		. SubStr(CharSet,((Value >> 12) & 63) + 1,1)
+		. SubStr(CharSet,(Value >> 12) + 1,1)
 		. SubStr(CharSet,((Value >> 6) & 63) + 1,1)
 		. SubStr(CharSet,(Value & 63) + 1,1) . "="
 }
@@ -39,14 +43,12 @@ Base64_Decode(Code)
 	Loop, % Length >> 2 ;process 4 characters per iteration
 	{
 		;decode the characters and store them in the output buffer
-		Value := ((InStr(CharSet,SubStr(Code,Index ++,1),1) - 1) << 18)
-			| ((InStr(CharSet,SubStr(Code,Index ++,1),1) - 1) << 12)
-			| ((InStr(CharSet,SubStr(Code,Index ++,1),1) - 1) << 6)
-			| (InStr(CharSet,SubStr(Code,Index ++,1),1) - 1)
-		NumPut((Value >> 16)
-			| (((Value >> 8) & 255) << 8)
-			| ((Value & 255) << 16),Data,BinPos,"UInt")
-		BinPos += 3
+		Value := ((InStr(CharSet,SubStr(Code,Index,1),1) - 1) << 18)
+			| ((InStr(CharSet,SubStr(Code,Index + 1,1),1) - 1) << 12)
+			| ((InStr(CharSet,SubStr(Code,Index + 2,1),1) - 1) << 6)
+			| (InStr(CharSet,SubStr(Code,Index + 3,1),1) - 1)
+		Index += 4
+		Data .= Chr(Value >> 16) . Chr((Value >> 8) & 255) . Chr(Value & 255)
 	}
 	Length &= 3 ;determine the number of characters remaining
 	If Length > 0 ;characters remain
@@ -54,14 +56,14 @@ Base64_Decode(Code)
 		;decode the first of the remaining characters and store it in the output buffer
 		Value := ((InStr(CharSet,SubStr(Code,Index,1),1) - 1) << 18)
 			| ((InStr(CharSet,SubStr(Code,Index + 1,1),1) - 1) << 12)
-		NumPut(Value >> 16,Data,BinPos,"UChar")
+		Data .= Chr(Value >> 16)
 
 		;another character remains
 		If Length = 3
 		{
 			;decode the character and store it in the output buffer
 			Value |= (InStr(CharSet,SubStr(Code,Index + 2,1),1) - 1) << 6
-			NumPut((Value >> 8) & 255,Data,BinPos + 1,"UChar")
+			Data .= Chr((Value >> 8) & 255)
 		}
 	}
 	Return, Data
