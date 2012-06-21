@@ -134,7 +134,8 @@
 				}
 			}
 		}
-		throw Exception("HTTP Status code missing")
+		else
+			throw Exception("HTTP Status code missing")
 	}
 
 	uploadItem(package, user, password)
