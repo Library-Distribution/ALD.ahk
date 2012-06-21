@@ -42,6 +42,15 @@
 		return user
 	}
 
+	changeUser(request_user, request_password, new_name = "", new_mail = "", new_password = "")
+	{
+		local RequestURL := this.URL . "/users/modify/" . request_user
+		data := new_name ? "name=" . new_name : ""
+		, data .= new_mail ? (data ? "`r`n" : "") . "mail=" . new_mail : ""
+		, data .= new_password ? (data ? "`r`n" : "") . "password=" new_password : ""
+		this._POSTRequest(RequestURL, "", data, "", request_user, request_password, "charset: utf-8")
+	}
+
 	getItemById(id)
 	{
 		local RequestURL := this.URL "/items/describe/" . id
