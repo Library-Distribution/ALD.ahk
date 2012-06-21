@@ -98,19 +98,19 @@
 		return result
 	}
 
-	_POSTRequest(URL, headers, byRef data, NamespaceURI = "", user = "", password = "")
+	_POSTRequest(URL, headers, byRef data, NamespaceURI = "", user = "", password = "", options = "")
 	{
-		return this._Request("POST", URL, headers, data, NamespaceURI, user, password)
+		return this._Request("POST", URL, headers, data, NamespaceURI, user, password, options)
 	}
 
-	_Request(method, URL, headers, byRef data, NamespaceURI = "", user = "", password = "")
+	_Request(method, URL, headers, byRef data, NamespaceURI = "", user = "", password = "", options = "")
 	{
 		if (user && password)
 			headers .= "`nAuthorization: Basic " . Base64_Encode(user . ":" . password)
 
 		isXml := RegExMatch(headers, "`am)^Accept:\s+.*(application\/xml|text\/xml)") != 0
 
-		bytes := HttpRequest(URL, data, headers, "Method: " . method)
+		bytes := HttpRequest(URL, data, headers, "Method: " . method . "`n" . options)
 		if (RegExMatch(headers, "`am)^HTTP/1.1\s+(\d{3})\s+(.*)$", match))
 		{
 			code := match1, msg := match2
