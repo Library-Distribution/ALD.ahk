@@ -10,6 +10,14 @@ for each, item in item_list
 }
 MsgBox Uploaded items:`n`n%items%
 
+item_list := conn.getItemList(0, "all", "", "", "", true)
+items := ""
+for each, item in item_list
+{
+	items .= "  - {" . item.id . "} " . item.name . " ( " . item.version . " )`n"
+}
+MsgBox Latest uploaded items:`n`n%items%
+
 user_list := conn.getUserList()
 for each, user in user_list
 {
