@@ -10,7 +10,7 @@ for each, item in item_list
 }
 MsgBox Uploaded items:`n`n%items%
 
-item_list := conn.getItemList(0, "all", "", "", "", true)
+item_list := conn.getItemList(0, "all", "", "", "", "latest")
 items := ""
 for each, item in item_list
 {
