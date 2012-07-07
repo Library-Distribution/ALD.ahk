@@ -76,9 +76,9 @@
 		return item
 	}
 
-	getItemList(start = 0, count = "all", type = "", user = "", name = "", level = "")
+	getItemList(start = 0, count = "all", type = "", user = "", name = "", version = "")
 	{
-		local RequestURL := this.URL . "/items/list?start=" . start . "&count=" . count . (type ? "&type=" . type : "") . (user ? "&user=" . user : "") . (name ? "&name=" . name : "") . (level ? "&level=" . level : "")
+		local RequestURL := this.URL . "/items/list?start=" . start . "&count=" . count . (type ? "&type=" . type : "") . (user ? "&user=" . user : "") . (name ? "&name=" . name : "") . (version ? "&version=" . version : "")
 			, NamespaceURI := "ald://api/items/list/schema/2012"
 
 		doc := this._GETRequest(RequestURL, NamespaceURI)
